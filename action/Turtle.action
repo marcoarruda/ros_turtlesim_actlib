@@ -1,0 +1,14 @@
+#goal definition
+turtlesim/Pose pose
+---
+#result definition
+float32 x
+float32 y
+float32 distance
+float32 status
+---
+#feedback
+float32 x
+float32 y
+float32 distance
+float32 status

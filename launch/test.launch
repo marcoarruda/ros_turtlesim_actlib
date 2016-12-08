@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="turtlesim" name="turtle1"       type="turtlesim_node" output="screen" />
+  <node pkg="actlib"    name="turtle_server" type="turtle_server"  output="screen" />
+</launch>
