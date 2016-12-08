@@ -51,6 +51,9 @@ class TurtleAction {
         float absv = std::abs(angle - angle_);
         //ROS_INFO("angle error: %.2f", angle);
         status_ = 100 * (1 - (distance_ / initial_distance_));
+        twist_.linear.x = 1 * distance_;
+        twist_.angular.z = 5 * (angle - angle_);
+        /*
         if(absv > 0.1) {
           twist_.linear.x = 0;
           twist_.angular.z = 2 * (angle - angle_);
@@ -58,6 +61,7 @@ class TurtleAction {
           twist_.linear.x = 2 * distance_;
           twist_.angular.z = 0;
         }
+        */
       }
 
       pub_.publish(twist_);

@@ -9,9 +9,9 @@ void spinThread() {
 }
 
 int main(int argc, char** argv) {
-  ros::init(argc, argv, "test_turtle");
+  ros::init(argc, argv, "turtle_client");
   
-  actionlib::SimpleActionClient<actlib::TurtleAction> ac("turtle");
+  actionlib::SimpleActionClient<actlib::TurtleAction> ac("turtle_server");
   boost::thread spin_thread(&spinThread);
   
   ROS_INFO("waiting for action server to start");
