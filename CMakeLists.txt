@@ -64,7 +64,7 @@ add_action_files(
   DIRECTORY
   action
   FILES
-  Averaging.action
+  #Averaging.action
   Turtle.action
 )
 
@@ -135,8 +135,8 @@ include_directories(
 # add_dependencies(actlib ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(averaging_server src/averaging_server.cpp)
-add_executable(averaging_client src/averaging_client.cpp)
+#add_executable(averaging_server src/averaging_server.cpp)
+#add_executable(averaging_client src/averaging_client.cpp)
 add_executable(turtle_server src/turtle_server.cpp)
 add_executable(turtle_client src/turtle_client.cpp)
 
@@ -145,8 +145,8 @@ add_executable(turtle_client src/turtle_client.cpp)
 # add_dependencies(actlib_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(averaging_server ${catkin_LIBRARIES})
-target_link_libraries(averaging_client ${catkin_LIBRARIES})
+#target_link_libraries(averaging_server ${catkin_LIBRARIES})
+#target_link_libraries(averaging_client ${catkin_LIBRARIES})
 target_link_libraries(turtle_server ${catkin_LIBRARIES})
 target_link_libraries(turtle_client ${catkin_LIBRARIES})
 
