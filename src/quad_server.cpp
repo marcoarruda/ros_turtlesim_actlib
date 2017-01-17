@@ -28,11 +28,15 @@ class QuadAction {
       
     }
 
+    void calcDistance() {
+        distance_ = sqrt(pow(z_ - goal_.z, 2) + pow(x_ - goal_.x, 2) + pow(y_ - goal_.y, 2));
+    }
+
     void taskToBeDone() {
       if(!as_.isActive()) return;
-      
-      distance_ = sqrt(pow(z_ - goal_.z, 2) + pow(x_ - goal_.x, 2) + pow(y_ - goal_.y, 2));
-      
+
+      calcDistance();
+
       // publish result
       if(distance_ < 0.05) {
         result_.pose.x = x_;
@@ -41,24 +45,28 @@ class QuadAction {
         result_.distance = distance_;
         result_.status = status_;
 
-        //attitude_.linear.x = 0;
-        //attitude_.angular.z = 0;
-        //pub1_.publish(attitude_);
+        attitude_.vector.x = 0;
+        attitude_.vector.y = 0;
+        attitude_.vector.z = 0;
+        pub1_.publish(attitude_);
+        thrust_.data = 0;
+        pub2_.publish(thrust_);
 
         ROS_INFO("%s: Succeeded", action_name_.c_str());
         as_.setSucceeded(result_);
         return;
-      } else {
-        // math for velocity command publishing
-        float angle = atan2(goal_.y - y_, goal_.x - x_);
-        float absv = std::abs(angle - 0);
-        //ROS_INFO("angle error: %.2f", angle);
-        status_ = 100 * (1 - (distance_ / initial_distance_));
-        //attitude_.linear.x = 1 * distance_;
-        //attitude_.angular.z = 5 * (angle - angle_);
       }
 
-      //pub1_.publish(attitude_);
+      // math for velocity command publishing
+      double kp[3] = {0.1, 0.1, 0.1};
+      double ffz = 1.2 * 9.81;
+      attitude_.vector.x = -kp[0]*(goal_.x - x_);
+      attitude_.vector.y = kp[1]*(goal_.y - y_);
+      attitude_.vector.z = 0;
+      pub1_.publish(attitude_);
+      thrust_.data = ffz; + kp[2]*(goal_.z - z_);
+      pub2_.publish(thrust_);
+      status_ = 100 * (1 - (distance_ / initial_distance_));
       
       // publish feedback
       feedback_.pose.x = x_;
@@ -71,7 +79,7 @@ class QuadAction {
     
     void goalCB() {
       goal_ = as_.acceptNewGoal()->pose;
-      distance_ = sqrt(pow(x_ - goal_.x, 2) + pow(y_ - goal_.y, 2));
+      calcDistance();
       if(initial_distance_ == -1) {
         initial_x_ = x_;
         initial_y_ = y_;
@@ -90,6 +98,10 @@ class QuadAction {
       tf::Quaternion q(msg->pose.orientation.x, msg->pose.orientation.y, msg->pose.orientation.z, msg->pose.orientation.w);
       tf::Matrix3x3 m(q);
       m.getRPY(roll_, pitch_, yaw_);
+
+      x_ = msg->pose.position.x;
+      y_ = msg->pose.position.y;
+      z_ = msg->pose.position.z;
 
       this->taskToBeDone();
     }
