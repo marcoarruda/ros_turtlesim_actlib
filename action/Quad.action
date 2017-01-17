@@ -1,0 +1,12 @@
+#goal definition
+geometry_msgs/Vector3 pose
+---
+#result definition
+geometry_msgs/Vector3 pose
+float32 distance
+float32 status
+---
+#feedback
+geometry_msgs/Vector3 pose
+float32 distance
+float32 status

@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   geometry_msgs
   turtlesim
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -66,6 +67,7 @@ add_action_files(
   FILES
   #Averaging.action
   Turtle.action
+  Quad.action
 )
 
 ## Generate added messages and services with any dependencies listed here
@@ -138,7 +140,8 @@ include_directories(
 #add_executable(averaging_server src/averaging_server.cpp)
 #add_executable(averaging_client src/averaging_client.cpp)
 add_executable(turtle_server src/turtle_server.cpp)
-add_executable(turtle_client src/turtle_client.cpp)
+add_executable(quad_server src/quad_server.cpp)
+#add_executable(turtle_client src/turtle_client.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -148,7 +151,8 @@ add_executable(turtle_client src/turtle_client.cpp)
 #target_link_libraries(averaging_server ${catkin_LIBRARIES})
 #target_link_libraries(averaging_client ${catkin_LIBRARIES})
 target_link_libraries(turtle_server ${catkin_LIBRARIES})
-target_link_libraries(turtle_client ${catkin_LIBRARIES})
+target_link_libraries(quad_server ${catkin_LIBRARIES})
+#target_link_libraries(turtle_client ${catkin_LIBRARIES})
 
 #############
 ## Install ##
