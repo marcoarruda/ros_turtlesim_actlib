@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   nav_msgs
   turtlesim
+  nav_msgs
   tf
 )
 
@@ -66,9 +67,9 @@ add_action_files(
   DIRECTORY
   action
   FILES
-  #Averaging.action
   Turtle.action
   Quad.action
+  Forklift.action
 )
 
 ## Generate added messages and services with any dependencies listed here
@@ -142,6 +143,7 @@ include_directories(
 #add_executable(averaging_client src/averaging_client.cpp)
 add_executable(turtle_server src/turtle_server.cpp)
 add_executable(quad_server src/quad_server.cpp)
+add_executable(forklift_server src/forklift_server.cpp)
 #add_executable(turtle_client src/turtle_client.cpp)
 
 ## Add cmake target dependencies of the executable
@@ -153,6 +155,7 @@ add_executable(quad_server src/quad_server.cpp)
 #target_link_libraries(averaging_client ${catkin_LIBRARIES})
 target_link_libraries(turtle_server ${catkin_LIBRARIES})
 target_link_libraries(quad_server ${catkin_LIBRARIES})
+target_link_libraries(forklift_server ${catkin_LIBRARIES})
 #target_link_libraries(turtle_client ${catkin_LIBRARIES})
 
 #############

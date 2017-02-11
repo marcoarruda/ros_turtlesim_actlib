@@ -1,0 +1,6 @@
+<launch>
+  <node pkg="actlib"    name="forklift_action_server" type="forklift_server"  output="screen">
+    <param name="topic_pose" value="" type="str" />
+    <param name="topic_cmd_vel_" value="" type="str" />
+  </node>
+</launch>
