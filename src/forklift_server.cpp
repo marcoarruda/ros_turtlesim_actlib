@@ -1,7 +1,9 @@
 #include <ros/ros.h>
 #include <string>
 #include <std_msgs/Float32.h>
+#include <tf/transform_datatypes.h>
 #include <geometry_msgs/Twist.h>
+#include <nav_msgs/Odometry.h>
 #include <geometry_msgs/Pose2D.h>
 #include <actionlib/server/simple_action_server.h>
 #include <actlib/ForkliftAction.h>
@@ -84,10 +86,13 @@ class ForkliftAction {
       as_.setPreempted();
     }
     
-    void getPose(const geometry_msgs::Pose2D::ConstPtr& msg) {
-      angle_ = msg->theta;
-      x_ = msg->x;
-      y_ = msg->y;
+    void getPose(const nav_msgs::Odometry::ConstPtr& msg) {
+      tf::Quaternion q(msg->pose.pose.orientation.x, msg->pose.pose.orientation.y, msg->pose.pose.orientation.z, msg->pose.pose.orientation.w);
+      tf::Matrix3x3 m(q);
+      m.getRPY(roll_, pitch_, yaw_);
+      angle_ = yaw_;
+      x_ = msg->pose.pose.position.x;
+      y_ = msg->pose.pose.position.y;
 
       this->taskToBeDone();
     }
@@ -107,6 +112,7 @@ class ForkliftAction {
     float initial_distance_, initial_x_, initial_y_;
     // current variables
     float angle_, x_, y_, distance_, status_;
+    double roll_, pitch_, yaw_;
     // goal variables
     geometry_msgs::Pose2D goal_;
     // to publish variables
